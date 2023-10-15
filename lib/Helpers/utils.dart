@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_share/flutter_share.dart';
 
-const String APP_ID = 'your-agora-app-id';
+// Replace the hardcoded APP_ID with an actual Agora App ID
+// const String APP_ID = 'your-agora-app-id';
+const String APP_ID = '<Your Agora App ID>';
 
 String getAgoraAppId() {
   return APP_ID; // Return Your Agora App Id
