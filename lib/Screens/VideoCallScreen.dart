@@ -1,4 +1,4 @@
-    import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
     import 'package:agora_rtc_engine/rtc_engine.dart';
     import 'package:permission_handler/permission_handler.dart';
 
@@ -17,27 +17,31 @@
       }
 
       Future<void> initAgora() async {
-        await [Permission.camera, Permission.microphone].request();
-        _engine = await RtcEngine.create(APP_ID);
-        await _engine.enableVideo();
-        _engine.setEventHandler(RtcEngineEventHandler(
-          joinChannelSuccess: (channel, uid, elapsed) {
-            setState(() {
-              // Handle UI changes
-            });
-          },
-          userJoined: (uid, elapsed) {
-            setState(() {
-              // Handle UI changes
-            });
-          },
-          userOffline: (uid, reason) {
-            setState(() {
-              // Handle UI changes
-            });
-          },
-        ));
-        await _engine.joinChannel(null, 'test', null, 0);
+        Map<Permission, PermissionStatus> statuses = await [Permission.camera, Permission.microphone].request();
+        if (statuses[Permission.camera].isDenied || statuses[Permission.microphone].isDenied) {
+          // Handle permission denied case
+        } else {
+          _engine = await RtcEngine.create(APP_ID);
+          await _engine.enableVideo();
+          _engine.setEventHandler(RtcEngineEventHandler(
+            joinChannelSuccess: (channel, uid, elapsed) {
+              setState(() {
+                // Handle UI changes
+              });
+            },
+            userJoined: (uid, elapsed) {
+              setState(() {
+                // Handle UI changes
+              });
+            },
+            userOffline: (uid, reason) {
+              setState(() {
+                // Handle UI changes
+              });
+            },
+          ));
+          await _engine.joinChannel(null, 'test', null, 0);
+        }
       }
 
       @override
